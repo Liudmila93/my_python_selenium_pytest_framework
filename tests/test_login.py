@@ -33,3 +33,24 @@ class TestPositiveScenarios:
         assert logged_in_page.is_user_logged_in_icon_displayed(), "Logout button should be visible"
         assert logged_in_page.is_logout_button_displayed(), "Logout button should be visible"
 
+
+class TestNegativeScenarios:
+    @pytest.mark.login
+    @pytest.mark.negative
+    @allure.step("Login with invalid username and password")
+    @pytest.mark.parametrize("user_mail, user_password", [("incorrect_user@gmail.com", "test1234!"), ("ludo4ka.th@mail.ru", "incorrect_password")])
+    def test_negative_login(self, open_browser, user_mail, user_password):
+        # Go to webpage
+        login_page = LoginPage(open_browser)
+        login_page.open_page()
+
+        login_page.accept_eighteen()
+
+        login_page.enter_user_name(user_mail)
+        login_page.enter_password(user_password)
+        login_page.press_log_in()
+
+        assert login_page.is_error_message_visible(), "Error message is not displayed, but it should be"
+        assert login_page.is_error_message_displayed_correctly(), "Error message is not expected"
+
+
