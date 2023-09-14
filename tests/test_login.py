@@ -44,8 +44,10 @@ class TestNegativeScenarios:
         login_page = LoginPage(open_browser)
         login_page.open_page()
 
+        # Accept disclaimer
         login_page.accept_eighteen()
 
+        # Login
         login_page.enter_user_name(user_mail)
         login_page.enter_password(user_password)
         login_page.press_log_in()
