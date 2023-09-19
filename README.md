@@ -9,8 +9,11 @@ pip install -r requirements.txt
 # How to run tests
 pytest -v -s --browser "chrome" tests/test_login.py
 
+# How to run test in PARALLEL
+ pytest --alluredir=allure_reports -n 3 tests/test_login.py
+
 # How to get allure reports:
-1. run in terminal: pytest --alluredir=allure_reports tests/test_login.py
+1. run in terminal: pytest --alluredir=allure_reports -n 3 tests/test_login.py
 2. receive results: allure serve allure_reports
 
 # Username and password
