@@ -31,7 +31,7 @@ class TestLoginScenarios:
 
         # Assertion
         logged_in_page = LoggedInSuccessfullyPage(open_main_page)
-        assert logged_in_page.expected_url == logged_in_page.current_url, "Actual URL is not the same as expected"
+        assert logged_in_page.expected_url == logged_in_page.current_url, f"Actual URL = {logged_in_page.current_url} is not the same as expected = {logged_in_page.expected_url}"
         assert logged_in_page.is_user_logged_in_icon_displayed(), "Logout button should be visible"
         assert logged_in_page.is_logout_button_displayed(), "Logout button should be visible"
 

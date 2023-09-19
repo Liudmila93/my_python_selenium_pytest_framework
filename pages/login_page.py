@@ -28,7 +28,7 @@ class LoginPage(BasePage):
         self._is_element_visible(*LoginPageLocators.LOGIN_BTN)
         submit_button_locator = self._browser.find_element(*LoginPageLocators.LOGIN_BTN)
         submit_button_locator.click()
-        time.sleep(2)
+        time.sleep(3)
 
     @allure.step("Accept 18 age disclaimer")
     def accept_eighteen(self):
