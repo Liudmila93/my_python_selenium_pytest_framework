@@ -1,7 +1,6 @@
 import pytest
 import allure
 import os
-
 from allure_commons.types import Severity
 from dotenv import load_dotenv
 from pages.logged_in_succesfully import LoggedInSuccessfullyPage
@@ -20,13 +19,9 @@ class TestLoginScenarios:
     @allure.step("Login with valid username and password")
     @pytest.mark.login
     @pytest.mark.positive
-    def test_positive_login(self, open_browser):
+    def test_positive_login(self, open_main_page):
         # Go to webpage
-        login_page = LoginPage(open_browser)
-        login_page.open_page()
-
-        # Accept disclaimer
-        login_page.accept_eighteen()
+        login_page = LoginPage(open_main_page)
 
         # Login
         load_dotenv()
@@ -35,7 +30,7 @@ class TestLoginScenarios:
         login_page.press_log_in()
 
         # Assertion
-        logged_in_page = LoggedInSuccessfullyPage(open_browser)
+        logged_in_page = LoggedInSuccessfullyPage(open_main_page)
         assert logged_in_page.expected_url == logged_in_page.current_url, "Actual URL is not the same as expected"
         assert logged_in_page.is_user_logged_in_icon_displayed(), "Logout button should be visible"
         assert logged_in_page.is_logout_button_displayed(), "Logout button should be visible"
@@ -48,13 +43,9 @@ class TestLoginScenarios:
     @allure.story("Negative login")
     @allure.step("Login with invalid username and password")
     @pytest.mark.parametrize("user_mail, user_password", [("incorrect_user@gmail.com", "test1234!"), ("ludo4ka.th@mail.ru", "incorrect_password")])
-    def test_negative_login(self, open_browser, user_mail, user_password):
+    def test_negative_login(self, open_main_page, user_mail, user_password):
         # Go to webpage
-        login_page = LoginPage(open_browser)
-        login_page.open_page()
-
-        # Accept disclaimer
-        login_page.accept_eighteen()
+        login_page = LoginPage(open_main_page)
 
         # Login
         login_page.enter_user_name(user_mail)
