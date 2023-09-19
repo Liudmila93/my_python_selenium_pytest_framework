@@ -1,6 +1,21 @@
 import pytest
+import allure
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
+from utils import attach
+
+
+@pytest.hookimpl(tryfirst=True, hookwrapper=True)
+def pytest_runtest_makereport(item, call):
+    """Make screenshots for failed tests"""
+    outcome = yield
+    rep = outcome.get_result()
+
+    if rep.when == "call" and rep.failed:
+        try:
+            allure.attach(item.funcargs['open_browser'].get_screenshot_as_png(), name="failed test", attachment_type=allure.attachment_type.PNG)
+        except Exception as e:
+            print(f"Failed to capture screenshot: {str(e)}")
 
 
 @pytest.fixture()
@@ -23,6 +38,7 @@ def open_browser(request):
         raise TypeError(f"Expected 'chrome' or 'firefox' but get {browser_name}")
     my_driver.get(f"https://www.{environment}beerwulf.com/en-nl/my-account/Login?ReturnUrl=/en-NL/AccountInformation/OrderHistory")
     yield my_driver
+    attach.add_logs(my_driver)
     print(f"Closing {browser_name} driver")
     my_driver.quit()
 
