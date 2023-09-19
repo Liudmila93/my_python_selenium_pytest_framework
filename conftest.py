@@ -19,6 +19,12 @@ def pytest_runtest_makereport(item, call):
             print(f"Failed to capture screenshot: {str(e)}")
 
 
+def pytest_addoption(parser):
+    """Configure custom command line parameters"""
+    parser.addoption("--browser", action="store", default="chrome", help="choose browser to execute test")
+    parser.addoption("--env", action="store", choices=['test', 'prod'], default="prod", help="choose environment")
+
+
 @pytest.fixture(scope="session")
 def open_browser(request):
     browser_name = request.config.getoption("--browser")
@@ -36,7 +42,6 @@ def open_browser(request):
         my_driver.maximize_window()
     else:
         raise TypeError(f"Expected 'chrome' or 'firefox' but get {browser_name}")
-  #  my_driver.get(f"https://www.{environment}beerwulf.com/en-nl/my-account/Login?ReturnUrl=/en-NL/AccountInformation/OrderHistory")
     yield my_driver
     attach.add_logs(my_driver)
     print(f"Closing {browser_name} driver")
@@ -60,11 +65,3 @@ def open_main_page(request, open_browser):
     login_page.accept_eighteen()
     return browser
 
-
-def pytest_addoption(parser):
-    """Configure custom command line parameters
-    env . = prod
-    .stage = stage
-    .test = test"""
-    parser.addoption("--browser", action="store", default="chrome", help="choose browser to execute test")
-    parser.addoption("--env", action="store", default=".", help="choose environment to execute test. stage.")  #  test, stage, prod
