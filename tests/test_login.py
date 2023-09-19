@@ -30,10 +30,8 @@ class TestLoginScenarios:
 
         # Login
         load_dotenv()
-        #login_page.enter_user_name(os.getenv("LOGIN"))
-        #login_page.enter_password(os.getenv("PASSWORD"))
-        login_page.enter_user_name("ludo4ka.th@mail.ru")
-        login_page.enter_password("PASSWORD")
+        login_page.enter_user_name(os.getenv("LOGIN"))
+        login_page.enter_password(os.getenv("PASSWORD"))
         login_page.press_log_in()
 
         # Assertion
